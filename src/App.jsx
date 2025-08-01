@@ -1,48 +1,32 @@
-import React, { useState, useEffect } from 'react';
-import LoginSimulator from './pages/LoginSimulator';
-import TrapDashboard from './pages/TrapDashboard';
-import ExitSimulator from './features/ExitSimulator';
+import React, { useState } from 'react';
+import Onboarding from './components/Onboarding';
+import FakeLogin from './components/FakeLogin';
+import MainApp from './components/MainApp';
 
-export default function App() {
-  const [route, setRoute] = useState('/login');
-  const [isExiting, setIsExiting] = useState(false);
+const App = () => {
+  const [currentStep, setCurrentStep] = useState('onboarding'); // 'onboarding', 'login', 'main'
 
-  const navigate = (path) => setRoute(path);
-
-  const handleReset = () => {
-    setIsExiting(false);
-    navigate('/login');
+  const handleOnboardingComplete = () => {
+    setCurrentStep('login');
   };
 
-  useEffect(() => {
-    const styleId = 'app-animations';
-    if (document.getElementById(styleId)) return;
-    const style = document.createElement('style');
-    style.id = styleId;
-    style.innerHTML = `
-      @keyframes fade-in-up {
-        0% { opacity: 0; transform: translateY(20px); }
-        100% { opacity: 1; transform: translateY(0); }
-      }
-      .animate-fade-in-up { animation: fade-in-up 0.5s ease-out forwards; }
-    `;
-    document.head.appendChild(style);
-  }, []);
-
-  const renderRoute = () => {
-    switch (route) {
-      case '/dashboard':
-        return <TrapDashboard onExitAttempt={() => setIsExiting(true)} />;
-      case '/login':
-      default:
-        return <LoginSimulator navigateTo={navigate} />;
-    }
+  const handleLoginComplete = () => {
+    setCurrentStep('main');
   };
 
   return (
-    <div>
-      {renderRoute()}
-      {isExiting && <ExitSimulator onCancel={() => setIsExiting(false)} onReset={handleReset} />}
+    <div className="h-screen w-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
+      {currentStep === 'onboarding' && (
+        <Onboarding onComplete={handleOnboardingComplete} />
+      )}
+      {currentStep === 'login' && (
+        <FakeLogin onComplete={handleLoginComplete} />
+      )}
+      {currentStep === 'main' && (
+        <MainApp />
+      )}
     </div>
   );
-}
+};
+
+export default App;

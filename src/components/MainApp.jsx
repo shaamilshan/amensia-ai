@@ -4,11 +4,16 @@ import ParticleCanvas from './ParticleCanvas';
 
 const FORGET_DELAY = 10000;
 
-const MainApp = () => {
+const MainApp = ({ onBack }) => {
   const [notes, setNotes] = useState([]);
   const [newNote, setNewNote] = useState('');
   const [showWelcome, setShowWelcome] = useState(true);
   const [vanishingNoteId, setVanishingNoteId] = useState(null);
+  const [instantRegretMode, setInstantRegretMode] = useState(false);
+  const [showSaveToast, setShowSaveToast] = useState(false);
+  const [lastNoteText, setLastNoteText] = useState('');
+  const [ghostWord, setGhostWord] = useState('');
+  const [isGlitching, setIsGlitching] = useState(false);
 
   useEffect(() => {
     const welcomeTimer = setTimeout(() => { setShowWelcome(false); }, 3000);
@@ -19,25 +24,45 @@ const MainApp = () => {
     e.preventDefault();
     if (newNote.trim() === '') return;
     
+    // Show fake save toast
+    setShowSaveToast(true);
+    setTimeout(() => {
+      setShowSaveToast(false);
+    }, 2000);
+    
     const noteId = Date.now();
     const newNoteObj = {
       id: noteId,
       text: newNote.trim(),
       createdAt: Date.now(),
-      timeLeft: FORGET_DELAY / 1000
+      timeLeft: instantRegretMode ? 0 : FORGET_DELAY / 1000
     };
     
+    setLastNoteText(newNote.trim());
     setNotes(prev => [...prev, newNoteObj]);
     setNewNote('');
     
     // Start countdown for this note
     const timer = setTimeout(() => {
-      setVanishingNoteId(noteId);
+      // Glitch effect before deletion
+      setIsGlitching(true);
       setTimeout(() => {
-        setNotes(prev => prev.filter(note => note.id !== noteId));
-        setVanishingNoteId(null);
-      }, 2000); // Time for particle animation
-    }, FORGET_DELAY);
+        setIsGlitching(false);
+        setVanishingNoteId(noteId);
+        setTimeout(() => {
+          setNotes(prev => prev.filter(note => note.id !== noteId));
+          setVanishingNoteId(null);
+          
+          // Occasionally show ghost word
+          if (Math.random() < 0.3) {
+            const words = lastNoteText.split(' ');
+            const randomWord = words[Math.floor(Math.random() * words.length)];
+            setGhostWord(randomWord);
+            setTimeout(() => setGhostWord(''), 3000);
+          }
+        }, 2000);
+      }, 500);
+    }, instantRegretMode ? 100 : FORGET_DELAY);
     
     return () => clearTimeout(timer);
   };
@@ -46,8 +71,24 @@ const MainApp = () => {
     // This will be called when particle animation completes
   };
 
+  const handleBack = () => {
+    if (onBack) {
+      onBack();
+    }
+  };
+
   return (
     <div className="h-full w-full relative bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
+      {/* Back Button */}
+      <motion.button
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        onClick={handleBack}
+        className="absolute top-4 left-4 text-white/60 hover:text-white transition-colors z-10"
+      >
+        ← Back to Hub
+      </motion.button>
+
       {/* AI Status Bar */}
       <motion.div
         initial={{ opacity: 0, y: -20 }}
@@ -62,6 +103,57 @@ const MainApp = () => {
           <span>AMNESIA AI v2.1.0</span>
         </div>
       </motion.div>
+
+      {/* Mode Toggle */}
+      <motion.div
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="absolute top-4 right-4 z-10"
+      >
+        <button
+          onClick={() => setInstantRegretMode(!instantRegretMode)}
+          className={`px-4 py-2 rounded-lg text-sm font-mono transition-all duration-300 ${
+            instantRegretMode 
+              ? 'bg-red-500/20 text-red-400 border border-red-400/30' 
+              : 'bg-cyan-500/20 text-cyan-400 border border-cyan-400/30'
+          }`}
+        >
+          {instantRegretMode ? 'Instant Regret' : '10s Mode'}
+        </button>
+      </motion.div>
+
+      {/* Ghost Word */}
+      <AnimatePresence>
+        {ghostWord && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50"
+          >
+            <div className="text-2xl text-white/30 font-mono italic">
+              "{ghostWord}"
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Save Toast */}
+      <AnimatePresence>
+        {showSaveToast && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            className="fixed top-4 left-1/2 transform -translate-x-1/2 z-50"
+          >
+            <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-lg px-4 py-2 text-white/80">
+              <span className="text-cyan-400">Saving...</span>
+              <span className="ml-2 text-white/60">Just kidding.</span>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       <AnimatePresence mode="wait">
         {showWelcome ? (
@@ -95,7 +187,7 @@ const MainApp = () => {
                 transition={{ delay: 0.9 }}
                 className="text-lg text-white/50 text-center"
               >
-                Add notes to your list - each will be forgotten in exactly 10 seconds
+                Add notes to your list - each will be forgotten in exactly {instantRegretMode ? '0' : '10'} seconds
               </motion.p>
             </div>
           </motion.div>
@@ -104,7 +196,7 @@ const MainApp = () => {
             key="notes"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="flex flex-col h-full pt-20 px-8"
+            className={`flex flex-col h-full pt-20 px-8 ${isGlitching ? 'animate-pulse' : ''}`}
           >
             {/* Add Note Form */}
             <motion.div
@@ -118,7 +210,7 @@ const MainApp = () => {
                     type="text"
                     value={newNote}
                     onChange={(e) => setNewNote(e.target.value)}
-                    placeholder="Add a new note... (will be forgotten in 10 seconds)"
+                    placeholder={`Add a new note... (will be forgotten ${instantRegretMode ? 'instantly' : 'in 10 seconds'})`}
                     className="flex-1 px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white placeholder:text-white/30 focus:outline-none focus:border-cyan-400 transition-colors"
                   />
                   <button
@@ -152,6 +244,7 @@ const MainApp = () => {
                         note={note}
                         isVanishing={vanishingNoteId === note.id}
                         onAnimationComplete={handleAnimationComplete}
+                        instantRegretMode={instantRegretMode}
                       />
                     ))}
                   </AnimatePresence>
@@ -166,12 +259,12 @@ const MainApp = () => {
 };
 
 // Individual Note Component
-const NoteItem = ({ note, isVanishing, onAnimationComplete }) => {
-  const [timeLeft, setTimeLeft] = useState(FORGET_DELAY / 1000);
+const NoteItem = ({ note, isVanishing, onAnimationComplete, instantRegretMode }) => {
+  const [timeLeft, setTimeLeft] = useState(instantRegretMode ? 0 : FORGET_DELAY / 1000);
   const [showOopsiee, setShowOopsiee] = useState(false);
 
   useEffect(() => {
-    if (isVanishing) return;
+    if (isVanishing || instantRegretMode) return;
     
     const timer = setInterval(() => {
       setTimeLeft(prev => {
@@ -187,7 +280,7 @@ const NoteItem = ({ note, isVanishing, onAnimationComplete }) => {
     }, 1000);
     
     return () => clearInterval(timer);
-  }, [isVanishing]);
+  }, [isVanishing, instantRegretMode]);
 
   if (isVanishing) {
     return (
@@ -218,7 +311,16 @@ const NoteItem = ({ note, isVanishing, onAnimationComplete }) => {
         </p>
         <div className="ml-4 text-right">
           <AnimatePresence mode="wait">
-            {showOopsiee ? (
+            {instantRegretMode ? (
+              <motion.div
+                key="instant"
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="text-sm font-mono text-red-400 bg-red-400/10 px-2 py-1 rounded border border-red-400/20"
+              >
+                instant regret
+              </motion.div>
+            ) : showOopsiee ? (
               <motion.div
                 key="oopsiee"
                 initial={{ opacity: 0, scale: 0.8 }}
@@ -246,14 +348,16 @@ const NoteItem = ({ note, isVanishing, onAnimationComplete }) => {
       </div>
       
       {/* Progress Bar */}
-      <div className="w-full h-1 bg-white/20 rounded-full overflow-hidden">
-        <motion.div
-          className="h-full bg-gradient-to-r from-cyan-400 to-purple-500"
-          initial={{ width: '100%' }}
-          animate={{ width: '0%' }}
-          transition={{ duration: FORGET_DELAY / 1000, ease: 'linear' }}
-        />
-      </div>
+      {!instantRegretMode && (
+        <div className="w-full h-1 bg-white/20 rounded-full overflow-hidden">
+          <motion.div
+            className="h-full bg-gradient-to-r from-cyan-400 to-purple-500"
+            initial={{ width: '100%' }}
+            animate={{ width: '0%' }}
+            transition={{ duration: FORGET_DELAY / 1000, ease: 'linear' }}
+          />
+        </div>
+      )}
     </motion.div>
   );
 };

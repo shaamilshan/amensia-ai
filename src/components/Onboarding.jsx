@@ -7,32 +7,32 @@ const Onboarding = ({ onComplete }) => {
 
   const steps = [
     {
-      title: "Welcome to Amnesia AI",
-      subtitle: "The World's First AI-Powered Memory Eraser",
-      description: "Powered by advanced neural networks and quantum forgetting algorithms. Your thoughts are processed, analyzed, and then... poof! Gone forever.",
-      features: ["🤖 AI-Powered", "🔒 Quantum Secure", "⚡ Instant Forgetting"],
-      image: "🧠"
+      title: "Welcome to Useless Hub",
+      subtitle: "A Collection of Intentionally Pointless Projects",
+      description: "Where productivity goes to die and existential dread thrives. Each module is designed to waste your time in the most entertaining way possible.",
+      features: ["🎭 Satirical", "⏰ Time-Wasting", "🤔 Existential"],
+      image: "🎪"
     },
     {
       title: "How It Works",
-      subtitle: "Neural Memory Processing",
-      description: "Our AI analyzes your thoughts in real-time, processes them through our proprietary forgetting neural network, and ensures complete digital amnesia after 10 seconds.",
-      features: ["🧠 Neural Analysis", "⏱️ 10-Second Timer", "💨 Complete Erasure"],
-      image: "⚡"
+      subtitle: "Pure Pointlessness",
+      description: "Browse through our collection of useless modules. Each one serves no purpose other than to make you question why you're spending time on it.",
+      features: ["🔘 Click Modules", "🎮 Interact", "😵 Question Reality"],
+      image: "🎯"
     },
     {
-      title: "Privacy First",
-      subtitle: "Zero Memory Architecture",
-      description: "Unlike other apps that store your data forever, Amnesia AI uses our revolutionary 'Zero Memory' technology. Once forgotten, it's gone from our servers too.",
-      features: ["🔐 Zero Storage", "🌐 No Cloud", "🚫 No Backups"],
-      image: "🔒"
+      title: "What You'll Find",
+      subtitle: "Uselessness at Its Finest",
+      description: "From notes that forget themselves to buttons that do nothing, from fake bomb diffusers to AI therapists who make it worse. Pure entertainment through pointlessness.",
+      features: ["📝 Forgetting Notes", "💣 Fake Bombs", "🧠 Sarcastic AI"],
+      image: "🎨"
     },
     {
-      title: "Ready to Experience",
-      subtitle: "The Future of Digital Privacy",
-      description: "Join thousands of users who trust Amnesia AI for their most private thoughts. Click anywhere to begin your journey into digital oblivion.",
-      features: ["🚀 Start Now", "✨ Premium Experience", "🎯 100% Forgetting"],
-      image: "🚀"
+      title: "Ready to Waste Time?",
+      subtitle: "Embrace the Pointlessness",
+      description: "Join thousands of users who have already wasted countless hours on our intentionally useless creations. Your productivity will thank you later.",
+      features: ["🚀 Start Wasting", "✨ Premium Uselessness", "🎯 100% Pointless"],
+      image: "🎉"
     }
   ];
 
@@ -65,7 +65,7 @@ const Onboarding = ({ onComplete }) => {
           animate={{ scale: 1 }}
           className="text-white text-4xl font-light text-center"
         >
-          Initializing Neural Networks...
+          Initializing Uselessness...
         </motion.div>
       </motion.div>
     );
@@ -93,9 +93,9 @@ const Onboarding = ({ onComplete }) => {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.1 }}
-                className="text-sm text-cyan-400 font-mono mb-6"
+                className="text-sm text-cyan-400 font-mono mb-4"
               >
-                AMNESIA AI v2.1.0 - NEURAL CORE ACTIVE
+                USELESS HUB v1.0.0 - POINTLESS CORE ACTIVE
               </motion.div>
               
               <motion.h1
@@ -177,10 +177,10 @@ const Onboarding = ({ onComplete }) => {
                 transition={{ delay: 0.5 }}
                 className="absolute -top-4 -right-4 text-2xl opacity-60"
               >
-                {currentStep === 0 && "⚡"}
-                {currentStep === 1 && "🧠"}
-                {currentStep === 2 && "🔐"}
-                {currentStep === 3 && "✨"}
+                {currentStep === 0 && "🎭"}
+                {currentStep === 1 && "🎯"}
+                {currentStep === 2 && "🎨"}
+                {currentStep === 3 && "🎉"}
               </motion.div>
               
               <motion.div
@@ -189,10 +189,10 @@ const Onboarding = ({ onComplete }) => {
                 transition={{ delay: 0.7 }}
                 className="absolute -bottom-4 -left-4 text-2xl opacity-60"
               >
-                {currentStep === 0 && "🔒"}
-                {currentStep === 1 && "⏱️"}
-                {currentStep === 2 && "🌐"}
-                {currentStep === 3 && "🎯"}
+                {currentStep === 0 && "⏰"}
+                {currentStep === 1 && "🎮"}
+                {currentStep === 2 && "💣"}
+                {currentStep === 3 && "✨"}
               </motion.div>
               
               <motion.div
@@ -201,9 +201,9 @@ const Onboarding = ({ onComplete }) => {
                 transition={{ delay: 0.9 }}
                 className="absolute top-1/2 -right-8 text-xl opacity-40"
               >
-                {currentStep === 0 && "🤖"}
-                {currentStep === 1 && "💨"}
-                {currentStep === 2 && "🚫"}
+                {currentStep === 0 && "🤔"}
+                {currentStep === 1 && "😵"}
+                {currentStep === 2 && "🧠"}
                 {currentStep === 3 && "🚀"}
               </motion.div>
               

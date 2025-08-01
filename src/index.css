@@ -3,9 +3,7 @@
 /* This MUST be the first line in the file */
 @import url('https://api.fontshare.com/v2/css?f[]=satoshi@700&f[]=inter@400&display=swap');
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
 /* You can keep or remove the default Vite styles below, Tailwind will override most of them anyway */
 :root {

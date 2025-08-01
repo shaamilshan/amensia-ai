@@ -1,8 +1,11 @@
 /** @type {import('tailwindcss').Config} */
-module.exports = {
+export default {
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
     extend: {
+      colors: {
+        'slate-900': '#0f172a',
+      },
       fontFamily: {
         sans: ['Inter', 'sans-serif'],
         display: ['Satoshi', 'sans-serif'],

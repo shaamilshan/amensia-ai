@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const FakeLogin = ({ onComplete }) => {
   const [currentStep, setCurrentStep] = useState(0);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
   const [showForgotten, setShowForgotten] = useState(false);
 
   const steps = [
@@ -28,10 +27,7 @@ const FakeLogin = ({ onComplete }) => {
 
   const handleLogin = (e) => {
     e.preventDefault();
-    setIsLoading(true);
     setCurrentStep(1);
-    
-    // Simulate authentication delay
     setTimeout(() => {
       setCurrentStep(2);
       setTimeout(() => {
@@ -46,54 +42,24 @@ const FakeLogin = ({ onComplete }) => {
 
   if (showForgotten) {
     return (
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        className="fixed inset-0 bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 flex items-center justify-center"
-      >
+      <motion.div className="fixed inset-0 bg-black flex items-center justify-center">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          className="text-center px-8 max-w-2xl"
+          className="text-center p-8 max-w-xl"
         >
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.5 }}
-            className="text-sm text-cyan-400 font-mono mb-4"
-          >
-            NEURAL MEMORY SCAN COMPLETE
-          </motion.div>
-          
-          <motion.h1
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.7 }}
-            className="text-4xl font-light text-white/90 mb-6"
-          >
-            What was your name again?
-          </motion.h1>
-          
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.9 }}
-            className="text-lg text-white/60 mb-8 leading-relaxed"
-          >
-            Our AI seems to have forgotten your identity. 
-            <br />
+          <div className="text-sm text-cyan-400 font-mono mb-4">NEURAL MEMORY SCAN COMPLETE</div>
+          <h1 className="text-4xl font-light text-white/90 mb-6">What was your name again?</h1>
+          <p className="text-lg text-white/60 mb-8">
+            Our AI seems to have forgotten your identity. <br />
             <span className="text-cyan-300">Nevermind, let's work with notes instead.</span>
-          </motion.p>
-          
-          <motion.button
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1.1 }}
+          </p>
+          <button
             onClick={handleForgottenName}
-            className="px-8 py-3 bg-gradient-to-r from-cyan-500 to-purple-600 text-white rounded-lg hover:from-cyan-600 hover:to-purple-700 transition-all duration-300 font-medium"
+            className="px-8 py-3 bg-gradient-to-r from-cyan-500 to-purple-600 text-white rounded-lg hover:from-cyan-600 hover:to-purple-700 transition-all font-medium"
           >
             Continue to Notes
-          </motion.button>
+          </button>
         </motion.div>
       </motion.div>
     );
@@ -103,54 +69,49 @@ const FakeLogin = ({ onComplete }) => {
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="fixed inset-0 bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 flex items-center justify-center"
+      className="fixed inset-0 flex flex-col md:flex-row bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900"
     >
-      <div className="text-center px-8 max-w-md w-full">
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.1 }}
-          className="text-sm text-cyan-400 font-mono mb-4"
-        >
-          AMNESIA AI - SECURE LOGIN
-        </motion.div>
-        
-        <AnimatePresence mode="wait">
+      {/* Left: Image or Illustration */}
+      <div className="hidden md:flex w-1/2 items-center justify-center relative">
+        <img
+          src="assets/login-illustration.svg" // <-- Update with your actual image path
+          alt="Login Illustration"
+          className="max-w-lg"
+        />
+        <div className="absolute bottom-10 text-cyan-400 font-mono text-xs opacity-30">AMNESIA AI SYSTEM V3</div>
+      </div>
+
+      {/* Right: Form Section */}
+      <div className="w-full md:w-1/2 flex items-center justify-center p-8">
+        <div className="w-full max-w-md space-y-6">
           <motion.div
-            key={currentStep}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.5 }}
-            className="space-y-6"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="text-sm text-cyan-400 font-mono text-center"
           >
-            <motion.h1
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.2 }}
-              className="text-3xl font-light text-white/90"
+            AMNESIA AI - SECURE LOGIN
+          </motion.div>
+
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={currentStep}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.5 }}
+              className="text-center space-y-6"
             >
-              {steps[currentStep].title}
-            </motion.h1>
-            
-            <motion.h2
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.4 }}
-              className="text-lg font-light text-cyan-300"
-            >
-              {steps[currentStep].subtitle}
-            </motion.h2>
-            
-            {steps[currentStep].showForm && (
-              <motion.form
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.6 }}
-                onSubmit={handleLogin}
-                className="space-y-4"
-              >
-                <div>
+              <h1 className="text-3xl font-light text-white/90">{steps[currentStep].title}</h1>
+              <h2 className="text-lg font-light text-cyan-300">{steps[currentStep].subtitle}</h2>
+
+              {steps[currentStep].showForm && (
+                <motion.form
+                  onSubmit={handleLogin}
+                  className="space-y-4 text-left"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.3 }}
+                >
                   <input
                     type="text"
                     value={username}
@@ -159,8 +120,6 @@ const FakeLogin = ({ onComplete }) => {
                     className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder:text-white/40 focus:outline-none focus:border-cyan-400 transition-colors"
                     required
                   />
-                </div>
-                <div>
                   <input
                     type="password"
                     value={password}
@@ -169,40 +128,32 @@ const FakeLogin = ({ onComplete }) => {
                     className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder:text-white/40 focus:outline-none focus:border-cyan-400 transition-colors"
                     required
                   />
+                  <button
+                    type="submit"
+                    className="w-full px-6 py-3 bg-gradient-to-r from-cyan-500 to-purple-600 text-white rounded-lg hover:from-cyan-600 hover:to-purple-700 transition-all font-medium"
+                  >
+                    Sign In
+                  </button>
+                </motion.form>
+              )}
+
+              {currentStep === 1 && (
+                <div className="flex justify-center">
+                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-cyan-400"></div>
                 </div>
-                <button
-                  type="submit"
-                  className="w-full px-6 py-3 bg-gradient-to-r from-cyan-500 to-purple-600 text-white rounded-lg hover:from-cyan-600 hover:to-purple-700 transition-all duration-300 font-medium"
-                >
-                  Sign In
-                </button>
-              </motion.form>
-            )}
-            
-            {currentStep === 1 && (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                className="flex justify-center"
-              >
-                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-cyan-400"></div>
-              </motion.div>
-            )}
-            
-            {currentStep === 2 && (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                className="text-green-400 text-sm"
-              >
-                ✓ Authentication successful
-              </motion.div>
-            )}
-          </motion.div>
-        </AnimatePresence>
+              )}
+
+              {currentStep === 2 && (
+                <div className="text-green-400 text-sm">
+                  ✓ Authentication successful
+                </div>
+              )}
+            </motion.div>
+          </AnimatePresence>
+        </div>
       </div>
     </motion.div>
   );
 };
 
-export default FakeLogin; 
+export default FakeLogin;

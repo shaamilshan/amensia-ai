@@ -84,7 +84,7 @@ const MainApp = ({ onBack }) => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         onClick={handleBack}
-        className="absolute top-4 left-4 text-white/60 hover:text-white transition-colors z-10"
+        className="absolute top-4 left-4 text-white/60 hover:text-white transition-colors z-50 px-4 py-2 bg-black/20 rounded-lg backdrop-blur-sm border border-white/10 hover:bg-black/30"
       >
         ← Back to Hub
       </motion.button>
@@ -93,11 +93,11 @@ const MainApp = ({ onBack }) => {
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="absolute top-4 left-4 right-4 flex justify-between items-center text-sm text-white/60 font-mono z-10"
+        className="absolute top-4 left-20 right-4 flex justify-between items-center text-sm text-white/60 font-mono z-10"
       >
         <div className="flex items-center space-x-2">
           <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-          <span>NEURAL CORE ACTIVE</span>
+          {/* <span>NEURAL CORE ACTIVE</span> */}
         </div>
         <div className="flex items-center space-x-4">
           <span>AMNESIA AI v2.1.0</span>

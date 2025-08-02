@@ -45,6 +45,30 @@ npm run dev
 ### Project Documentation
 For Software:
 
+🧠 Useless Hub – Workflow (Text Format)
+	1.	User lands on the Useless Hub home page.
+The homepage welcomes the user with a sarcastic tagline and presents a list of available useless modules as clickable buttons or tiles. A session timer starts running silently in the background to track how much time is being wasted.
+	2.	User selects a module to explore.
+Each module is a separate, isolated page or component with its own unique, pointless functionality. The user can navigate freely between them, wasting time at will.
+	3.	Inside each module, user interacts with fake or humorous systems.
+Examples:
+	•	Entry/Exit Trap: Login and logout buttons loop endlessly.
+	•	Our Notes: Notes disappear after 10 seconds with psychological twists.
+	•	Bomb Diffuser: User spends time trying to disarm a bomb, only to be told they wasted their time.
+	•	Mystery Button Room: Dozens of buttons do unpredictable but meaningless things.
+	•	AI Therapist: Replies sarcastically and makes the user feel worse.
+	•	Color Picker: Judges the user based on the color they select.
+	•	Loading Simulator: Pretends to load something important forever.
+	•	Feedback Form: Collects philosophical answers, does nothing with them.
+	4.	Modules provide no meaningful output or progress.
+Instead, they return sarcastic, confusing, or ironic messages, reinforcing the theme of pointlessness.
+	5.	User returns to the main hub.
+A button or automatic redirect brings the user back to the Hub page, where they can choose another useless experience.
+	6.	Total time wasted is displayed.
+The site may display a counter showing how many minutes/seconds of the user’s life have been lost during the session.
+	7.	Repeat until boredom, laughter, or existential crisis kicks in.
+The user is free to explore, loop through modules, or simply let the session timer tick away in the background.
+
 ### project link
 https://useless-hub.vercel.app/
 

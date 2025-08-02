@@ -9,7 +9,7 @@
 
 
 ### Team Members
-- Team Lead: Shamil - St. Joseph's College Devagiri
+- Team Lead: Shamil V K - St. Joseph's College Devagiri
 
 ### Project Description
 Useless Hub is a satirical web app filled with intentionally pointless mini-projects designed to waste your time in absurd and hilarious ways. From vanishing notes to fake bomb diffusers, it offers interactive experiences that do nothing—on purpose.
